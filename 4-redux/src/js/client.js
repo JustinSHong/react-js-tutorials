@@ -8,17 +8,17 @@ const initialState = {
   fetching: false,
   fetched: false,
   users: [],
-  error: null,
+  error: null
 };
 
-const reducer = (state=initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "FETCH_USERS_PENDING": {
-      return {...state, fetching: true}
+      return { ...state, fetching: true };
       break;
     }
     case "FETCH_USERS_REJECTED": {
-      return {...state, fetching: false, error: action.payload}
+      return { ...state, fetching: false, error: action.payload };
       break;
     }
     case "FETCH_USERS_FULFILLED": {
@@ -26,18 +26,19 @@ const reducer = (state=initialState, action) => {
         ...state,
         fetching: false,
         fetched: true,
-        users: action.payload,
-      }
+        users: action.payload
+      };
       break;
     }
   }
-  return state
-}
+  return state;
+};
 
-const middleware = applyMiddleware(promise(), thunk, logger())
-const store = createStore(reducer, middleware)
+const middleware = applyMiddleware(promise(), thunk, logger());
+
+const store = createStore(reducer, middleware);
 
 store.dispatch({
   type: "FETCH_USERS",
   payload: axios.get("http://rest.learncode.academy/api/wstern/users")
-})
+});
